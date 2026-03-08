@@ -352,3 +352,183 @@ alert("Product Added Successfully");
 
 </body>
 </html>
+<div id="loginPage" class="container page" style="display:block">
+
+<h2>Select Login Type</h2>
+
+<button onclick="showUserLogin()">User Login</button>
+<button onclick="showAdminLogin()">Admin Login</button>
+
+<div id="userLogin" style="display:none">
+
+<h3>User Login</h3>
+
+<input id="mobile" placeholder="Enter Mobile Number">
+
+<h3>Select Location</h3>
+
+<div class="location-buttons">
+
+<button onclick="setLocation('Chennai')">Chennai</button>
+<button onclick="setLocation('Madurai')">Madurai</button>
+<button onclick="setLocation('Trichy')">Trichy</button>
+<button onclick="setLocation('Coimbatore')">Coimbatore</button>
+
+</div>
+
+<button onclick="login()">Enter Website</button>
+
+</div>
+
+<div id="adminLogin" style="display:none">
+
+<h3>Admin Login</h3>
+
+<input id="adminUser" placeholder="Admin Username">
+<input id="adminPass" placeholder="Admin Password" type="password">
+
+<button onclick="adminLogin()">Login Admin</button>
+
+</div>
+
+</div>
+function showUserLogin(){
+document.getElementById("userLogin").style.display="block";
+document.getElementById("adminLogin").style.display="none";
+}
+
+function showAdminLogin(){
+document.getElementById("adminLogin").style.display="block";
+document.getElementById("userLogin").style.display="none";
+}
+
+function adminLogin(){
+
+let user=document.getElementById("adminUser").value;
+let pass=document.getElementById("adminPass").value;
+
+if(user=="admin" && pass=="1234"){
+
+document.getElementById("loginPage").style.display="none";
+document.getElementById("adminPage").style.display="block";
+
+}
+else{
+alert("Invalid Admin Login");
+}
+
+}
+<button onclick="showHistory()" style="float:right;background:#16a34a;">Watch History</button>
+let history=[];
+
+function displayProducts(list){
+
+let html="";
+
+list.forEach(p=>{
+
+history.push(p.name);
+
+html+=`
+
+<div class="card">
+
+<img src="${p.image}">
+
+<h4>${p.name}</h4>
+
+<p class="rating">⭐ ${p.rating}</p>
+
+<p><b>Review:</b> ${p.review}</p>
+
+<p><b>Shop:</b> ${p.shop}</p>
+
+<div class="links">
+
+<a target="_blank" href="${p.amazon}">Buy on Amazon</a>
+<a target="_blank" href="${p.flipkart}">Buy on Flipkart</a>
+
+</div>
+
+</div>
+
+`
+
+});
+
+document.getElementById("productList").innerHTML=html;
+
+}
+function showHistory(){
+
+alert("Recently Viewed:\n"+history.join("\n"));
+
+}
+<div id="dynamicFilters"></div>
+function searchProduct(){
+
+let query=document.getElementById("searchInput").value.toLowerCase();
+
+let result=products.filter(p=>p.name.toLowerCase().includes(query) || p.type.includes(query));
+
+displayProducts(result);
+
+showFilters(query);
+
+}
+function showFilters(query){
+
+let html="";
+
+if(query.includes("mobile")){
+
+html=`
+
+<h3>Select Brand</h3>
+
+<button onclick="brandFilter('apple')">Apple</button>
+<button onclick="brandFilter('samsung')">Samsung</button>
+<button onclick="brandFilter('realme')">Realme</button>
+
+`;
+
+}
+
+else if(query.includes("skin")){
+
+html=`
+
+<h3>Select Skin Type</h3>
+
+<button>Oily Skin</button>
+<button>Dry Skin</button>
+<button>Normal Skin</button>
+
+`;
+
+}
+
+else if(query.includes("furniture")){
+
+html=`
+
+<h3>Select Colour</h3>
+
+<button>Brown</button>
+<button>Black</button>
+<button>White</button>
+
+`;
+
+}
+
+document.getElementById("dynamicFilters").innerHTML=html;
+
+}
+function brandFilter(brand){
+
+let result=products.filter(p=>p.name.toLowerCase().includes(brand));
+
+displayProducts(result);
+
+}
